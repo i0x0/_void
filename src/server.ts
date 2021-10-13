@@ -50,6 +50,7 @@ fastify.post<{ Body: BlockDataType }>(
   },
   (res, reply) => {
     let index = blockchain.newData({
+      name: res.body.name,
       data: res.body.data,
       metadata: res.body.metadata,
     });

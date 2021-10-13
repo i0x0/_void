@@ -1,10 +1,13 @@
 import axios, { AxiosInstance } from "axios";
 import crypto from "crypto";
+const pkg = require("../package.json")
 
 //DEPRECATED (i think lol)
 export interface BlockchainOptions {
   node_identifier: string;
 }
+
+type hash = string
 
 export interface ChainRes {
   chain: Block[];
@@ -13,20 +16,22 @@ export interface ChainRes {
 
 export interface Block {
   index: number;
+  hash: hash
   timestamp: number;
   data: BlockData[];
   proof: number;
-  previousHash: string;
+  previousHash: hash;
 }
 
 export interface BlockData {
+  name: string;
   data: string;
   metadata: string;
 }
 
 export interface NewBlockOptions {
   proof: number;
-  previousHash?: string;
+  previousHash?: hash;
 }
 
 export default class Blockchain {
@@ -43,11 +48,11 @@ export default class Blockchain {
     this.settings = options;
     this.httpClient = axios.create({
       headers: {
-        "User-Agent": `Void Blockchain Node ID:${this.settings.node_identifier}`,
+        "User-Agent": `Void Blockchain Node ID:${this.settings.node_identifier} Version: ${pkg.version}`,
       },
     });
     // origin block
-    this.newBlock({ proof: 100, previousHash: "1" });
+    this.newBlock({ proof: 734, previousHash: "g3n3s1s_bl0ck" });
   }
 
   newData(x: BlockData): number {
@@ -67,11 +72,13 @@ export default class Blockchain {
     };
     const block: Block = {
       index: this.chain.length,
+      hash: "",
       timestamp: Date.now(),
       data: this.currentData,
       proof: x.proof,
       previousHash: uhh(),
     };
+    block.hash = hash(block.index + block.previousHash + block.timestamp + JSON.stringify(block.data))
     this.currentData = [];
     this.chain.push(block);
     return block;
@@ -107,7 +114,7 @@ export default class Blockchain {
     this.nodes.add(_url);
   }
 
-  validChain(chain: Block[]) {
+  validChain(chain: Block[]): boolean {
     let lastBlock = chain[0];
     let currentIndex = 1;
 
@@ -132,7 +139,7 @@ export default class Blockchain {
     return res;
   }
 
-  resolveConflicts() {
+  resolveConflicts(): boolean {
     let neighbours = this.nodes;
     let newChain = null;
     let res: boolean = false

@@ -1,6 +1,7 @@
 import {Static, Type} from "@sinclair/typebox";
 
 const BlockData = Type.Object({
+  name: Type.String(),
   data: Type.String(),
   metadata: Type.String()
 })
