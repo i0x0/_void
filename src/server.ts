@@ -108,7 +108,7 @@ fastify.get("/", (_, reply) => {
   });
 });
 
-fastify.listen(Number(process.env.PORT), (err) => {
+fastify.listen(Number(process.env.PORT), '0.0.0.0', (err) => {
   if (err) {
     console.error(err);
     process.exit(1);
