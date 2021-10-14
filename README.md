@@ -1,5 +1,7 @@
 # `Void`: a blockchain based around storing data
 
+## DEPRECATED Go to [new repo](https://github.com/TheHackerCoding/void)
+
 ## [Tutorial](https://hackernoon.com/learn-blockchains-by-building-one-117428612f46)
 
 It is based around the tutorial but instead of transactions, its based around immutable data
@@ -13,4 +15,3 @@ It is based around the tutorial but instead of transactions, its based around im
   - [ ] Make comments in code lol
 - [ ] Make the same implementation in a different language?
 - [ ] Make logs pretty
--
